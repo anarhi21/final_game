@@ -1,15 +1,16 @@
-
-
 local reds = {}
 
 math.randomseed(os.time())
 
-local spawnInterval = 3
+local spawnInterval = 1
 local timeElapsed = 0
+local total_points = 0
+
+local game_running = true
 
 function love.load()
+    love.window.setTitle("Avoid global warming!")
     world = love.physics.newWorld(0, 0, true)
-
     me = {}
         me.lives = 3
         me.x = 400
@@ -18,25 +19,29 @@ function love.load()
         me.radius = 10
         me.speed = 3
         me.shape = love.physics.newCircleShape(me.radius)
+        me.sprite = love.graphics.newImage('sprites/earth.png')
        
 end
 
 function love.update(dt)
-    world:update(dt)
-    movement()
-    border()
-    reflect()
-    collision()
-    
-    
-    timeElapsed = timeElapsed + dt
-    if timeElapsed >= spawnInterval then
-        spawnred()
-        timeElapsed = timeElapsed - spawnInterval
+    if game_running == true then
+        world:update(dt)
+        movement()
+        border()
+        reflect()
+        collision()
+        
+        total_points = total_points + dt
+        
+        timeElapsed = timeElapsed + dt
+        if timeElapsed >= spawnInterval then
+            spawnred()
+            timeElapsed = timeElapsed - spawnInterval
+        end
     end
-
 end
 
+-- Spawn baddies
 function spawnred()
     local x, y = math.random(15, 785), math.random(15, 585)
     red = {}
@@ -44,10 +49,12 @@ function spawnred()
         red.radius = 10
         red.body:setLinearVelocity(math.random(-200, 200), math.random(-200, 200))
         red.shape = love.physics.newCircleShape(red.radius)
+        red.fixture = love.physics.newFixture(red.body, red.shape)
+        red.fixture:setRestitution(1)
+        red.sprite = love.graphics.newImage('sprites/co2.jpg')
     table.insert(reds, red)
     
 end
-
 
 -- Enable collisions with walls
 function reflect()
@@ -63,9 +70,6 @@ function reflect()
     end
 end
 
-
-
-
 -- Check for collision with player
 function collision()
     for i, red in ipairs(reds) do
@@ -74,7 +78,8 @@ function collision()
             table.remove(reds, i)
             me.lives = me.lives - 1
             if me.lives == 0 then
-                me.lives = 3
+                game_running = false
+                --me.lives = 3
             end   
         end
     end
@@ -116,13 +121,18 @@ end
 
 
 function love.draw()
-    --love.graphics.printf('Pos.x: ' .. me.x, love.graphics.newFont(16), 50, 30, 100)
-    --love.graphics.printf('Pos.y: ' .. me.y, love.graphics.newFont(16), 50, 50, 100)
-    love.graphics.printf('Lives: ' .. me.lives, love.graphics.newFont(16), 700, 30, 100)
-    love.graphics.circle('fill', me.x, me.y, me.radius)
-    for i, red in ipairs(reds) do
-        love.graphics.circle('fill', red.body:getX(), red.body:getY(), red.radius)
+    if game_running == false then
+        love.graphics.print('The world has perished. Better luck next time!', love.graphics.newFont(26), 100, 300, 0)
     end
-
+    love.graphics.printf('Points: ' .. math.floor(total_points + 0.5), love.graphics.newFont(16), 50, 30, 100)
+    love.graphics.printf('Lives: ' .. me.lives, love.graphics.newFont(16), 700, 30, 100)
+    if game_running == true then
+        love.graphics.draw(me.sprite, me.x, me.y)
+        --love.graphics.circle('fill', me.x, me.y, me.radius)
+        for i, red in ipairs(reds) do
+            --love.graphics.circle('fill', red.body:getX(), red.body:getY(), red.radius)
+            love.graphics.draw(red.sprite, red.body:getX(), red.body:getY())
+        end
+    end
 end
 
