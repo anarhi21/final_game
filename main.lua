@@ -1,10 +1,10 @@
-local reds = {}
-local greens = {}
+local reds = {} -- the CO2 gasses
+local greens = {} -- the solar panels
 
 math.randomseed(os.time())
 
-local spawnInterval_red = 3
-local spawnInterval_green = 20
+local spawnInterval_red = 3 -- interval at which each new CO2 gas sprite appears
+local spawnInterval_green = 20 -- interval at which each new solar panel sprite appears
 local timeElapsed_red = 0
 local timeElapsed_green = 0
 local total_points = 0
@@ -162,7 +162,7 @@ function collision()
             if me.lives == 0 then
                 game_running = false
                 game_finished_lost = true
-            end   
+            end
         end
     end
     for i, green in ipairs(greens) do
@@ -219,6 +219,7 @@ function love.keypressed(key, unicode)
             me.x = love.graphics.getWidth() / 2
             me.y = love.graphics.getHeight() / 2
             reds = {}
+            greens = {}
             timeElapsed_red = 0
             timeElapsed_green = 0
             game_finished_lost = false
