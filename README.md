@@ -1,5 +1,5 @@
 # GLOBAL WARMING - THE GAME
-#### Video Demo:  <URL HERE>
+#### Video Demo can be seen [here](https://youtu.be/Bo4Hx-6zPmc).
 ## 1. Concept of the game
 #### The year 2023 has unfolded with cataclysmic environmental events - record braking heatwaves, floods storms etc.
 #### The most likely culprit for all of this is global warming which inspired the idea behind the game. Thus, **the main

@@ -71,12 +71,14 @@ function love.draw()
         love.graphics.draw(me.sprite, me.x, me.y)
     else
         love.graphics.setColor(0.1, 0.8, 0.4)
+        love.graphics.printf('GLOBAL WARMING - THE GAME.', love.graphics.newFont(26), love.graphics.getWidth()*0.25, love.graphics.getHeight()*0.25 , 800, 'center')
         love.graphics.printf('The year is 2023. The world is at a perilous stage where global warming is increasing. Survive as long as you can by avoiding CO2 gasses and gathering solar panels.', love.graphics.newFont(26), love.graphics.getWidth()*0.25, love.graphics.getHeight()*0.3 , 800, 'center')
         love.graphics.printf('Game instructions: use the W, S, A, D keys to move around.', love.graphics.newFont(26), love.graphics.getWidth()*0.25, love.graphics.getHeight()*0.3 + 150, 800, 'center')
         love.graphics.setColor(0.8, 0.8, 0)
         love.graphics.printf('Press Space to start the game!', love.graphics.newFont(32), love.graphics.getWidth()*0.34, love.graphics.getHeight()*0.3 + 300, 500, 'center')
         love.graphics.setColor(1, 1, 1)
         love.graphics.printf('Press Esc to quit the game!', love.graphics.newFont(22), love.graphics.getWidth()*0.33, love.graphics.getHeight()*0.3 + 550, 500, 'center')
+        love.graphics.printf('Developed by Reinis Udris', love.graphics.newFont(16), love.graphics.getWidth()*0.7, love.graphics.getHeight()*0.9, 500, 'center')
     end
     
     if game_finished_lost == true then
